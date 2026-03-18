@@ -1,15 +1,16 @@
 import express, { type Request, type Response } from "express";
 import authRoutes from "./routes/authRoutes";
 import productRoutes from "./routes/productRoutes";
+import categoryRoutes from "./routes/categoryRoutes";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Rutas
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes);
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "TechParts API funcionando 🚀" });
