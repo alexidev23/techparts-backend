@@ -1,12 +1,11 @@
 import { Router } from "express";
 import { authController } from "../controllers/authController";
+import { validate } from "../middlewares/validateMiddleware";
+import { registerSchema, loginSchema } from "../schemas/authSchemas";
 
 const router = Router();
 
-// POST /api/auth/register — crear cuenta
-router.post("/register", authController.register);
-
-// POST /api/auth/login — iniciar sesión
-router.post("/login", authController.login);
+router.post("/register", validate(registerSchema), authController.register);
+router.post("/login", validate(loginSchema), authController.login);
 
 export default router;
