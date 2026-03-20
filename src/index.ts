@@ -5,6 +5,7 @@ import productRoutes from "./routes/productRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import favoriteRoutes from "./routes/favoriteRoutes";
+import paymentRoutes from "./routes/paymentRoutes";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -25,6 +26,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/favorites", favoriteRoutes);
+app.use("/api/payments", paymentRoutes);
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "TechParts API funcionando 🚀" });
