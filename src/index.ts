@@ -8,19 +8,21 @@ import favoriteRoutes from "./routes/favoriteRoutes";
 import paymentRoutes from "./routes/paymentRoutes";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
-// ─── Middlewares globales ─────────────────────────────────────────────────────
 app.use(
   cors({
-    origin: "http://localhost:5173", // URL del frontend en desarrollo
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
 app.use(express.json());
 
-// ─── Rutas ────────────────────────────────────────────────────────────────────
+app.get("/", (_req: Request, res: Response) => {
+  res.json({ message: "TechParts API funcionando 🚀" });
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
@@ -28,10 +30,19 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/favorites", favoriteRoutes);
 app.use("/api/payments", paymentRoutes);
 
-app.get("/", (_req: Request, res: Response) => {
-  res.json({ message: "TechParts API funcionando 🚀" });
+const server = app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+server.on("error", (error) => {
+  console.error("Error del servidor:", error);
+});
+
+process.on("uncaughtException", (error) => {
+  console.error("Error no capturado:", error);
+  process.exit(1);
+});
+
+process.on("unhandledRejection", (error) => {
+  console.error("Promesa rechazada:", error);
 });

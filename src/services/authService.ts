@@ -68,4 +68,61 @@ export const authService = {
     const { password: _, ...userWithoutPassword } = user;
     return { user: userWithoutPassword, token };
   },
+
+  // ─── Obtener perfil ───────────────────────────────────────────────────────
+  async getProfile(userId: string) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        address: true,
+        postalCode: true,
+        province: true,
+        country: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (!user) {
+      throw new Error("Usuario no encontrado");
+    }
+
+    return user;
+  },
+
+  // ─── Actualizar perfil ────────────────────────────────────────────────────
+  async updateProfile(
+    userId: string,
+    data: {
+      name?: string;
+      phone?: string;
+      address?: string;
+      postalCode?: string;
+      province?: string;
+      country?: string;
+    },
+  ) {
+    return prisma.user.update({
+      where: { id: userId },
+      data,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        address: true,
+        postalCode: true,
+        province: true,
+        country: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  },
 };
