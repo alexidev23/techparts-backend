@@ -206,3 +206,13 @@ model Favorite {
   // Un usuario no puede tener el mismo producto dos veces en favoritos
   @@unique([userId, productId])
 }
+
+model Sponsor {
+  id        String        @id @default(uuid())
+  name      String
+  logo      String        @db.Text
+  link      String
+  status    ProductStatus @default(active)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}

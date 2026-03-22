@@ -7,6 +7,7 @@ import categoryRoutes from "./routes/categoryRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import favoriteRoutes from "./routes/favoriteRoutes";
 import paymentRoutes from "./routes/paymentRoutes";
+import sponsorRoutes from "./routes/sponsorRoutes";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -31,6 +32,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/favorites", favoriteRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/sponsors", sponsorRoutes);
 
 const server = app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
