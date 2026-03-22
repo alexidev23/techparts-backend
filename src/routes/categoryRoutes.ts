@@ -12,5 +12,12 @@ router.get("/:id", categoryController.getById);
 router.post("/", authenticate, authorizeAdmin, categoryController.create);
 router.put("/:id", authenticate, authorizeAdmin, categoryController.update);
 router.delete("/:id", authenticate, authorizeAdmin, categoryController.remove);
+// En categoryRoutes.ts
+router.post(
+  "/:id/subcategories",
+  authenticate,
+  authorizeAdmin,
+  categoryController.createSubcategory,
+);
 
 export default router;

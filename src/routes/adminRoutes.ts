@@ -19,5 +19,35 @@ router.get(
   authorizeAdmin,
   adminController.getProducts,
 );
+router.get(
+  "/categories",
+  authenticate,
+  authorizeAdmin,
+  adminController.getCategories,
+);
+router.delete(
+  "/categories/:id",
+  authenticate,
+  authorizeAdmin,
+  adminController.deleteCategory,
+);
+router.get(
+  "/subcategories",
+  authenticate,
+  authorizeAdmin,
+  adminController.getSubcategories,
+);
+router.delete(
+  "/subcategories/:id",
+  authenticate,
+  authorizeAdmin,
+  adminController.deleteSubcategory,
+);
+router.get(
+  "/categories/:id/products",
+  authenticate,
+  authorizeAdmin,
+  adminController.getProductsByCategory,
+);
 
 export default router;

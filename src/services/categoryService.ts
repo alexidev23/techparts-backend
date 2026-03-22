@@ -46,6 +46,13 @@ export const categoryService = {
     return prisma.category.create({ data: { name } });
   },
 
+  async createSubcategory(name: string, categoryId: string) {
+    return prisma.subcategory.create({
+      data: { name, categoryId },
+      include: { category: true },
+    });
+  },
+
   // ─── Actualizar categoría (solo admin) ───────────────────────────────────
   async update(
     id: string,

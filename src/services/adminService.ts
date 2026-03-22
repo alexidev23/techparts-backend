@@ -105,4 +105,45 @@ export const adminService = {
       orderBy: { createdAt: "desc" },
     });
   },
+  async getCategories() {
+    return prisma.category.findMany({
+      include: {
+        subcategories: true,
+        _count: {
+          select: { products: true },
+        },
+      },
+      orderBy: { name: "asc" },
+    });
+  },
+
+  async deleteCategory(id: string) {
+    const category = await prisma.category.findUnique({ where: { id } });
+    if (!category) throw new Error("Categoría no encontrada");
+    return prisma.category.delete({ where: { id } });
+  },
+
+  async getSubcategories() {
+    return prisma.subcategory.findMany({
+      include: {
+        category: true,
+        _count: { select: { products: true } },
+      },
+      orderBy: { name: "asc" },
+    });
+  },
+
+  async deleteSubcategory(id: string) {
+    const sub = await prisma.subcategory.findUnique({ where: { id } });
+    if (!sub) throw new Error("Subcategoría no encontrada");
+    return prisma.subcategory.delete({ where: { id } });
+  },
+
+  async getProductsByCategory(categoryId: string) {
+    return prisma.product.findMany({
+      where: { categoryId },
+      select: { id: true, name: true, stock: true, status: true },
+      orderBy: { name: "asc" },
+    });
+  },
 };
