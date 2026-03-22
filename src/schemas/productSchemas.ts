@@ -10,6 +10,7 @@ export const createProductSchema = z.object({
   categoryId: z.string().min(1, "La categoría es requerida"),
   subcategoryId: z.string().optional(),
   discountPercent: z.number().min(0).max(100).optional(),
+  status: z.enum(["active", "inactive"]).optional(),
 });
 
 export const updateProductSchema = createProductSchema.partial();

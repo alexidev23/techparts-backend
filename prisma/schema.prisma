@@ -21,6 +21,11 @@ enum Role {
   user
 }
 
+enum UserStatus {
+  active
+  inactive
+}
+
 enum OrderStatus {
   procesando
   enviado
@@ -43,18 +48,19 @@ enum CategoryStatus {
 // El rol determina a qué panel tiene acceso (frontend ya lo maneja)
 
 model User {
-  id         String   @id @default(uuid()) // UUID en lugar de autoincrement — más seguro para exponer en URLs
+  id         String     @id @default(uuid()) // UUID en lugar de autoincrement — más seguro para exponer en URLs
   name       String
-  email      String   @unique // no pueden haber dos usuarios con el mismo email
+  email      String     @unique // no pueden haber dos usuarios con el mismo email
   password   String // hasheada con bcrypt, nunca en texto plano
   phone      String? // opcional
   address    String? // dirección de envío
   postalCode String? // código postal
   province   String? // provincia
-  country    String?  @default("Argentina")
-  role       Role     @default(user) // por defecto todos son usuarios normales
-  createdAt  DateTime @default(now()) // fecha de registro automática
-  updatedAt  DateTime @updatedAt // se actualiza solo cuando cambia el registro
+  country    String?    @default("Argentina")
+  role       Role       @default(user) // por defecto todos son usuarios normales
+  status     UserStatus @default(active)
+  createdAt  DateTime   @default(now()) // fecha de registro automática
+  updatedAt  DateTime   @updatedAt // se actualiza solo cuando cambia el registro
 
   // Relaciones — un usuario puede tener muchos pedidos y favoritos
   orders    Order[]
@@ -108,7 +114,7 @@ model Product {
   brand           String
   stock           Int           @default(0)
   rating          Decimal?      @db.Decimal(3, 2) // ej: 4.75
-  imgPrincipal    String // URL de la imagen principal
+  imgPrincipal    String        @db.Text
   status          ProductStatus @default(active)
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
